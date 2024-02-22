@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,22 +51,37 @@ public class ImageAnalyzer {
     this.options = requireNonNull(options);
   }
 
-  public ImageAnalysis analyze(BufferedImage input) {
+  public ImageAnalysis analyze(BufferedImage inputImage) {
     try {
-      ImageBuffer inputBuffer = ImageBuffer.fromBufferedImage(input);
-      ImageBuffer outputBuffer = new ImageBuffer(input.getWidth(), input.getHeight());
+      ImageBuffer inputBuffer = ImageBuffer.fromBufferedImage(inputImage);
+      ImageBuffer outputBuffer = new ImageBuffer(inputImage.getWidth(), inputImage.getHeight());
 
       prepareCie(inputBuffer);
       edgeDetect(inputBuffer, outputBuffer);
       skinDetect(inputBuffer, outputBuffer);
       saturationDetect(inputBuffer, outputBuffer);
 
-      BufferedImage scoreImage = BufferedImages.scaled(input,
-          1.0f / getOptions().getScoreDownSample(), getOptions().getBufferedBitmapType());
-      ImageBuffer scoreBuffer = ImageBuffer.fromBufferedImage(scoreImage);
+      // Possibly scale down our image for analysis
+      ImageBuffer scoreBuffer;
+      if (inputImage.getWidth() <= getOptions().getScoreDownsampleMinSize()
+          && inputImage.getHeight() <= getOptions().getScoreDownsampleMinSize()
+          && inputImage.getType() == getOptions().getBufferedBitmapType()) {
+        // If our image is already small enough and of the right type, then we can use it directly
+        scoreBuffer = inputBuffer;
+      } else if (getOptions().getScoreDownsampleFactor() == 1
+          && inputImage.getType() == getOptions().getBufferedBitmapType()) {
+        // If our image is already the right size and type, then we can use it directly
+        scoreBuffer = inputBuffer;
+      } else {
+        // Otherwise, we need to create a new image and scale the input into it
+        BufferedImage scoreImage = BufferedImages.scaled(inputImage,
+            1.0f / getOptions().getScoreDownsampleFactor(), getOptions().getBufferedBitmapType());
+        scoreBuffer = ImageBuffer.fromBufferedImage(scoreImage);
+      }
 
+      // Produce our crops, being sure to scale back up if necessary
       List<Crop> crops = regions(scoreBuffer).stream().map(
-          region -> new Crop(Rects.scaled(region, getOptions().getScoreDownSample()),
+          region -> new Crop(Rects.scaled(region, getOptions().getScoreDownsampleFactor()),
               score(scoreBuffer, region))).collect(toList());
 
       return new ImageAnalysis(crops);
@@ -85,8 +100,10 @@ public class ImageAnalyzer {
 
     for (float scale = getOptions().getMaxScale(); scale >= getOptions().getMinScale();
         scale -= getOptions().getScaleStep()) {
-      for (int y = 0; y + minDimension * scale <= height; y += getOptions().getScoreDownSample()) {
-        for (int x = 0; x + minDimension * scale <= width; x += getOptions().getScoreDownSample()) {
+      for (int y = 0; y + minDimension * scale <= height;
+          y += getOptions().getScoreDownsampleFactor()) {
+        for (int x = 0; x + minDimension * scale <= width;
+            x += getOptions().getScoreDownsampleFactor()) {
           result.add(new Rect(x, y, (int) (minDimension * scale), (int) (minDimension * scale)));
         }
       }

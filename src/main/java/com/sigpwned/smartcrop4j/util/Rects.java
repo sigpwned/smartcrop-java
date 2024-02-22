@@ -42,6 +42,9 @@ public final class Rects {
     if (scale <= 0.0f) {
       throw new IllegalArgumentException("scale must be positive");
     }
+    if(scale == 1.0f) {
+      return region;
+    }
     return new Rect(
         (int) Math.max(region.getX() * scale, 1.0f),
         (int) Math.max(region.getY() * scale, 1.0f),

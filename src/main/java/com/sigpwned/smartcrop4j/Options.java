@@ -34,6 +34,10 @@ public class Options {
 
   public static final Options DEFAULT = new Options();
 
+  public static Options ofDimensions(int cropWidth, int cropHeight) {
+    return new Options().cropWidth(cropWidth).cropHeight(cropHeight);
+  }
+
   private int cropWidth = 100;
   private int cropHeight = 100;
   private float detailWeight = .2f;
@@ -49,8 +53,9 @@ public class Options {
   private float saturationBias = 0.2f;
   private float saturationWeight = 0.3f;
   // step * minscale rounded down to the next power of two should be good
-  private int scoreDownSample = 8;
-  //	private int step = 8;
+  private int scoreDownsampleFactor = 8;
+  private int scoreDownsampleMinSize = 128;
+
   private float scaleStep = 0.1f;
   private float minScale = 0.8f;
   private float maxScale = 1.0f;
@@ -186,12 +191,21 @@ public class Options {
     return this;
   }
 
-  public int getScoreDownSample() {
-    return scoreDownSample;
+  public int getScoreDownsampleFactor() {
+    return scoreDownsampleFactor;
   }
 
-  public Options scoreDownSample(int scoreDownSample) {
-    this.scoreDownSample = scoreDownSample;
+  public Options scoreDownsampleFactor(int scoreDownsampleFactor) {
+    this.scoreDownsampleFactor = scoreDownsampleFactor;
+    return this;
+  }
+
+  public int getScoreDownsampleMinSize() {
+    return scoreDownsampleMinSize;
+  }
+
+  public Options scoreDownsampleMinSize(int scoreDownsampleMinSize) {
+    this.scoreDownsampleMinSize = scoreDownsampleMinSize;
     return this;
   }
 
