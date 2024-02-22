@@ -32,12 +32,15 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author sigpwned
+ */
 public class ImageAnalysis {
   private final List<Crop> crops;
 
   public ImageAnalysis(List<Crop> crops) {
     this.crops = unmodifiableList(requireNonNull(crops).stream()
-        .sorted((a, b) -> -Float.compare(a.getScore().getTotal(), b.getScore().getTotal()))
+        .sorted((a, b) -> -a.compareTo(b))
         .collect(toList()));
     if (crops.isEmpty()) {
       throw new IllegalArgumentException("crops must not be empty");

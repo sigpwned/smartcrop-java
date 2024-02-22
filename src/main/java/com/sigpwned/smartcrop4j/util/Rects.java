@@ -27,6 +27,9 @@ package com.sigpwned.smartcrop4j.util;
 
 import com.sigpwned.smartcrop4j.Rect;
 
+/**
+ * @author sigpwned
+ */
 public final class Rects {
 
   private Rects() {

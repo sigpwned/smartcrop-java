@@ -27,6 +27,9 @@ package com.sigpwned.smartcrop4j;
 
 import java.util.Objects;
 
+/**
+ * @author sigpwned
+ */
 public class Rect {
 
   private final int x;

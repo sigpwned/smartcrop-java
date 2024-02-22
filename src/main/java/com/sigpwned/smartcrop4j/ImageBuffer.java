@@ -28,6 +28,9 @@ package com.sigpwned.smartcrop4j;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+/**
+ * @author sigpwned
+ */
 class ImageBuffer {
 
   public static ImageBuffer fromBufferedImage(BufferedImage bufferedImage) {

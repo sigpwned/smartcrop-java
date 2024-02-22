@@ -29,6 +29,9 @@ import com.sigpwned.smartcrop4j.Rect;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * @author sigpwned
+ */
 public final class BufferedImages {
 
   private BufferedImages() {

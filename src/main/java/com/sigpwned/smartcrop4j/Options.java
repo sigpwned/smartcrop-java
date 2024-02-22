@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,241 +28,242 @@ package com.sigpwned.smartcrop4j;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by flask on 2015. 10. 30..
+ * @author flask
  */
 public class Options {
-	public static final Options DEFAULT = new Options();
 
-	private int cropWidth = 100;
-	private int cropHeight = 100;
-	private float detailWeight = .2f;
-	private float[] skinColor = {0.7f, 0.57f, 0.44f};
-	private float skinBias = .01f;
-	private float skinBrightnessMin = 0.2f;
-	private float skinBrightnessMax = 1.0f;
-	private float skinThreshold = 0.8f;
-	private float skinWeight = 1.8f;
-	private float saturationBrightnessMin = 0.05f;
-	private float saturationBrightnessMax = 0.9f;
-	private float saturationThreshold = 0.4f;
-	private float saturationBias = 0.2f;
-	private float saturationWeight = 0.3f;
-	// step * minscale rounded down to the next power of two should be good
-	private int scoreDownSample = 8;
-	//	private int step = 8;
-	private float scaleStep = 0.1f;
-	private float minScale = 0.8f;
-	private float maxScale = 1.0f;
-	private float edgeRadius = 0.4f;
-	private float edgeWeight = -20f;
-	private float outsideImportance = -.5f;
-	private boolean ruleOfThirds = false;
-	private int bufferedBitmapType = BufferedImage.TYPE_INT_ARGB;
+  public static final Options DEFAULT = new Options();
 
-	public int getCropWidth() {
-		return cropWidth;
-	}
+  private int cropWidth = 100;
+  private int cropHeight = 100;
+  private float detailWeight = .2f;
+  private float[] skinColor = {0.7f, 0.57f, 0.44f};
+  private float skinBias = .01f;
+  private float skinBrightnessMin = 0.2f;
+  private float skinBrightnessMax = 1.0f;
+  private float skinThreshold = 0.8f;
+  private float skinWeight = 1.8f;
+  private float saturationBrightnessMin = 0.05f;
+  private float saturationBrightnessMax = 0.9f;
+  private float saturationThreshold = 0.4f;
+  private float saturationBias = 0.2f;
+  private float saturationWeight = 0.3f;
+  // step * minscale rounded down to the next power of two should be good
+  private int scoreDownSample = 8;
+  //	private int step = 8;
+  private float scaleStep = 0.1f;
+  private float minScale = 0.8f;
+  private float maxScale = 1.0f;
+  private float edgeRadius = 0.4f;
+  private float edgeWeight = -20f;
+  private float outsideImportance = -.5f;
+  private boolean ruleOfThirds = false;
+  private int bufferedBitmapType = BufferedImage.TYPE_INT_ARGB;
 
-	public Options cropWidth(int cropWidth) {
-		this.cropWidth = cropWidth;
-		return this;
-	}
+  public int getCropWidth() {
+    return cropWidth;
+  }
 
-	public int getCropHeight() {
-		return cropHeight;
-	}
+  public Options cropWidth(int cropWidth) {
+    this.cropWidth = cropWidth;
+    return this;
+  }
 
-	public Options cropHeight(int cropHeight) {
-		this.cropHeight = cropHeight;
-		return this;
-	}
+  public int getCropHeight() {
+    return cropHeight;
+  }
 
-	public float getDetailWeight() {
-		return detailWeight;
-	}
+  public Options cropHeight(int cropHeight) {
+    this.cropHeight = cropHeight;
+    return this;
+  }
 
-	public Options detailWeight(float detailWeight) {
-		this.detailWeight = detailWeight;
-		return this;
-	}
+  public float getDetailWeight() {
+    return detailWeight;
+  }
 
-	public float[] getSkinColor() {
-		return skinColor;
-	}
+  public Options detailWeight(float detailWeight) {
+    this.detailWeight = detailWeight;
+    return this;
+  }
 
-	public Options skinColor(float[] skinColor) {
-		this.skinColor = skinColor;
-		return this;
-	}
+  public float[] getSkinColor() {
+    return skinColor;
+  }
 
-	public float getSkinBias() {
-		return skinBias;
-	}
+  public Options skinColor(float[] skinColor) {
+    this.skinColor = skinColor;
+    return this;
+  }
 
-	public Options skinBias(float skinBias) {
-		this.skinBias = skinBias;
-		return this;
-	}
+  public float getSkinBias() {
+    return skinBias;
+  }
 
-	public float getSkinBrightnessMin() {
-		return skinBrightnessMin;
-	}
+  public Options skinBias(float skinBias) {
+    this.skinBias = skinBias;
+    return this;
+  }
 
-	public Options skinBrightnessMin(float skinBrightnessMin) {
-		this.skinBrightnessMin = skinBrightnessMin;
-		return this;
-	}
+  public float getSkinBrightnessMin() {
+    return skinBrightnessMin;
+  }
 
-	public float getSkinBrightnessMax() {
-		return skinBrightnessMax;
-	}
+  public Options skinBrightnessMin(float skinBrightnessMin) {
+    this.skinBrightnessMin = skinBrightnessMin;
+    return this;
+  }
 
-	public Options skinBrightnessMax(float skinBrightnessMax) {
-		this.skinBrightnessMax = skinBrightnessMax;
-		return this;
-	}
+  public float getSkinBrightnessMax() {
+    return skinBrightnessMax;
+  }
 
-	public float getSkinThreshold() {
-		return skinThreshold;
-	}
+  public Options skinBrightnessMax(float skinBrightnessMax) {
+    this.skinBrightnessMax = skinBrightnessMax;
+    return this;
+  }
 
-	public Options skinThreshold(float skinThreshold) {
-		this.skinThreshold = skinThreshold;
-		return this;
-	}
+  public float getSkinThreshold() {
+    return skinThreshold;
+  }
 
-	public float getSkinWeight() {
-		return skinWeight;
-	}
+  public Options skinThreshold(float skinThreshold) {
+    this.skinThreshold = skinThreshold;
+    return this;
+  }
 
-	public Options skinWeight(float skinWeight) {
-		this.skinWeight = skinWeight;
-		return this;
-	}
+  public float getSkinWeight() {
+    return skinWeight;
+  }
 
-	public float getSaturationBrightnessMin() {
-		return saturationBrightnessMin;
-	}
+  public Options skinWeight(float skinWeight) {
+    this.skinWeight = skinWeight;
+    return this;
+  }
 
-	public Options saturationBrightnessMin(float saturationBrightnessMin) {
-		this.saturationBrightnessMin = saturationBrightnessMin;
-		return this;
-	}
+  public float getSaturationBrightnessMin() {
+    return saturationBrightnessMin;
+  }
 
-	public float getSaturationBrightnessMax() {
-		return saturationBrightnessMax;
-	}
+  public Options saturationBrightnessMin(float saturationBrightnessMin) {
+    this.saturationBrightnessMin = saturationBrightnessMin;
+    return this;
+  }
 
-	public Options saturationBrightnessMax(float saturationBrightnessMax) {
-		this.saturationBrightnessMax = saturationBrightnessMax;
-		return this;
-	}
+  public float getSaturationBrightnessMax() {
+    return saturationBrightnessMax;
+  }
 
-	public float getSaturationThreshold() {
-		return saturationThreshold;
-	}
+  public Options saturationBrightnessMax(float saturationBrightnessMax) {
+    this.saturationBrightnessMax = saturationBrightnessMax;
+    return this;
+  }
 
-	public Options saturationThreshold(float saturationThreshold) {
-		this.saturationThreshold = saturationThreshold;
-		return this;
-	}
+  public float getSaturationThreshold() {
+    return saturationThreshold;
+  }
 
-	public float getSaturationBias() {
-		return saturationBias;
-	}
+  public Options saturationThreshold(float saturationThreshold) {
+    this.saturationThreshold = saturationThreshold;
+    return this;
+  }
 
-	public Options saturationBias(float saturationBias) {
-		this.saturationBias = saturationBias;
-		return this;
-	}
+  public float getSaturationBias() {
+    return saturationBias;
+  }
 
-	public float getSaturationWeight() {
-		return saturationWeight;
-	}
+  public Options saturationBias(float saturationBias) {
+    this.saturationBias = saturationBias;
+    return this;
+  }
 
-	public Options saturationWeight(float saturationWeight) {
-		this.saturationWeight = saturationWeight;
-		return this;
-	}
+  public float getSaturationWeight() {
+    return saturationWeight;
+  }
 
-	public int getScoreDownSample() {
-		return scoreDownSample;
-	}
+  public Options saturationWeight(float saturationWeight) {
+    this.saturationWeight = saturationWeight;
+    return this;
+  }
 
-	public Options scoreDownSample(int scoreDownSample) {
-		this.scoreDownSample = scoreDownSample;
-		return this;
-	}
+  public int getScoreDownSample() {
+    return scoreDownSample;
+  }
 
-	public float getScaleStep() {
-		return scaleStep;
-	}
+  public Options scoreDownSample(int scoreDownSample) {
+    this.scoreDownSample = scoreDownSample;
+    return this;
+  }
 
-	public Options scaleStep(float scaleStep) {
-		this.scaleStep = scaleStep;
-		return this;
-	}
+  public float getScaleStep() {
+    return scaleStep;
+  }
 
-	public float getMinScale() {
-		return minScale;
-	}
+  public Options scaleStep(float scaleStep) {
+    this.scaleStep = scaleStep;
+    return this;
+  }
 
-	public Options minScale(float minScale) {
-		this.minScale = minScale;
-		return this;
-	}
+  public float getMinScale() {
+    return minScale;
+  }
 
-	public float getMaxScale() {
-		return maxScale;
-	}
+  public Options minScale(float minScale) {
+    this.minScale = minScale;
+    return this;
+  }
 
-	public Options maxScale(float maxScale) {
-		this.maxScale = maxScale;
-		return this;
-	}
+  public float getMaxScale() {
+    return maxScale;
+  }
 
-	public float getEdgeRadius() {
-		return edgeRadius;
-	}
+  public Options maxScale(float maxScale) {
+    this.maxScale = maxScale;
+    return this;
+  }
 
-	public Options edgeRadius(float edgeRadius) {
-		this.edgeRadius = edgeRadius;
-		return this;
-	}
+  public float getEdgeRadius() {
+    return edgeRadius;
+  }
 
-	public float getEdgeWeight() {
-		return edgeWeight;
-	}
+  public Options edgeRadius(float edgeRadius) {
+    this.edgeRadius = edgeRadius;
+    return this;
+  }
 
-	public Options edgeWeight(float edgeWeight) {
-		this.edgeWeight = edgeWeight;
-		return this;
-	}
+  public float getEdgeWeight() {
+    return edgeWeight;
+  }
 
-	public float getOutsideImportance() {
-		return outsideImportance;
-	}
+  public Options edgeWeight(float edgeWeight) {
+    this.edgeWeight = edgeWeight;
+    return this;
+  }
 
-	public Options outsideImportance(float outsideImportance) {
-		this.outsideImportance = outsideImportance;
-		return this;
-	}
+  public float getOutsideImportance() {
+    return outsideImportance;
+  }
 
-	public boolean isRuleOfThirds() {
-		return ruleOfThirds;
-	}
+  public Options outsideImportance(float outsideImportance) {
+    this.outsideImportance = outsideImportance;
+    return this;
+  }
 
-	public Options ruleOfThirds(boolean ruleOfThirds) {
-		this.ruleOfThirds = ruleOfThirds;
-		return this;
-	}
+  public boolean isRuleOfThirds() {
+    return ruleOfThirds;
+  }
 
-	public int getBufferedBitmapType() {
-		return bufferedBitmapType;
-	}
+  public Options ruleOfThirds(boolean ruleOfThirds) {
+    this.ruleOfThirds = ruleOfThirds;
+    return this;
+  }
 
-	public Options bufferedBitmapType(int bufferedBitmapType) {
-		this.bufferedBitmapType = bufferedBitmapType;
-		return this;
-	}
+  public int getBufferedBitmapType() {
+    return bufferedBitmapType;
+  }
+
+  public Options bufferedBitmapType(int bufferedBitmapType) {
+    this.bufferedBitmapType = bufferedBitmapType;
+    return this;
+  }
 }

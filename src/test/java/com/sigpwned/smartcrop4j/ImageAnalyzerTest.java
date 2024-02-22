@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,51 +25,46 @@
  */
 package com.sigpwned.smartcrop4j;
 
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+
+import com.sigpwned.smartcrop4j.util.Analysis;
+import com.sigpwned.smartcrop4j.util.Cropping;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import org.junit.BeforeClass;
+import javax.imageio.ImageIO;
 import org.junit.Test;
 
 /**
- * Created by flask on 2015. 10. 27..
+ * @author flask
  */
-public class SmartCropTest {
-
-  static String samplePath = "src/test/resources/sample";
-  static String debugPath = "src/test/resources/debug";
-  static String resultPath = "src/test/resources/result";
-
-  static Map<String, BufferedImage> bufferedImages = new ConcurrentHashMap<>();
-  static Map<String, ImageAnalysis> cropResults = new ConcurrentHashMap<>();
-
-  @BeforeClass
-  public static void setup() throws Exception {
-
-  }
-
-//  @AfterClass
-//  public static void teardown() {
-//    cropResults.forEach((name, cropResult) -> {
-//      new Thread(() -> {
-//        try {
-//          long b = System.currentTimeMillis();
-//          String newName = name; // name.replace("jpg", "png");
-//          ImageIO.write(cropResult.debugImage, "jpg", new File(debugPath, newName));
-//          ImageIO.write(cropResult.resultImage, "jpg", new File(resultPath, newName));
-//          System.out.println(
-//              "saved... " + newName + " / took " + (System.currentTimeMillis() - b) + "ms");
-//        } catch (IOException e) {
-//          e.printStackTrace();
-//        }
-//      }).run();
-//    });
-//  }
+public class ImageAnalyzerTest {
 
   @Test
-  public void test() throws Exception {
-    System.out.println("class = " + getClass().getResource("samples/img.jpg"));
-    System.out.println("classloader = " + Thread.currentThread().getContextClassLoader().getResource("com/sigpwned/smartcrop4j/samples/img.jpg"));
+  public void givenSample_whenCropSample_thenGetExpectedCrop() throws Exception {
+    URL kittyUrl = getClass().getResource("samples/kitty.jpg");
+    File kittyFile = new File(kittyUrl.toURI());
+    BufferedImage kittyImage = ImageIO.read(kittyFile);
+
+    ImageAnalysis analysis = Analysis.analyze(kittyImage);
+
+    assertThat(analysis.getTopCrop().getRegion(), is(new Rect(1, 1, 424, 424)));
+  }
+
+  @Test
+  public void givenSampleDirectory_whenCropAllSamples_thenAllImagesAreSmaller() throws Exception {
+    URL exampleSampleUrl = getClass().getResource("samples/kitty.jpg");
+    File samplesDir = new File(exampleSampleUrl.toURI()).getParentFile();
+    for (File sample : samplesDir.listFiles()) {
+      if (sample.getName().endsWith(".jpg")) {
+        BufferedImage originalImage = ImageIO.read(sample);
+        BufferedImage croppedImage = Cropping.crop(originalImage);
+        assertThat(croppedImage.getWidth(), lessThanOrEqualTo(originalImage.getWidth()));
+        assertThat(croppedImage.getHeight(), lessThanOrEqualTo(originalImage.getHeight()));
+      }
+    }
   }
 }

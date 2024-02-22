@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,13 +26,15 @@
 package com.sigpwned.smartcrop4j.util;
 
 import com.sigpwned.smartcrop4j.ImageAnalysis;
-import com.sigpwned.smartcrop4j.ImageAnalyzer;
 import com.sigpwned.smartcrop4j.Options;
 import java.awt.image.BufferedImage;
 
-public final class Crops {
+/**
+ * @author sigpwned
+ */
+public final class Cropping {
 
-  private Crops() {
+  private Cropping() {
   }
 
   public static BufferedImage crop(BufferedImage input) {
@@ -40,7 +42,8 @@ public final class Crops {
   }
 
   public static BufferedImage crop(BufferedImage input, Options options) {
-    ImageAnalysis analysis = new ImageAnalyzer(options).analyze(input);
-    return BufferedImages.cropped(input, analysis.getTopCrop().getRegion(), options.getBufferedBitmapType());
+    ImageAnalysis analysis = Analysis.analyze(options, input);
+    return BufferedImages.cropped(input, analysis.getTopCrop().getRegion(),
+        options.getBufferedBitmapType());
   }
 }

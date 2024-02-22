@@ -36,7 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by flask on 2015. 10. 30..
+ * @author flask
  */
 public class ImageAnalyzer {
 
