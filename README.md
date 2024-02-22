@@ -1,13 +1,16 @@
-# smartcrop-java
+# smartcrop4j [![tests](https://github.com/sigpwned/smartcrop4j/actions/workflows/tests.yml/badge.svg)](https://github.com/sigpwned/smartcrop4j/actions/workflows/tests.yml) 
 
-smartcrop implementation in Java
+A [smartcrop](https://github.com/jwagner/smartcrop.js) port for Java.
 
-smartcrop finds good crops for arbitrary images and crop sizes, based on Jonas Wagner's [smartcrop.js](https://github.com/jwagner/smartcrop.js)
+Smartcrop finds good crops for arbitrary images and crop sizes.
 
+## Sample usage
+
+    public Rect findGoodCrop(BufferedImage image, int width, int height) {
+        return 
+    }
 
 ## Sample debug image
-
-> [check more debug image](https://github.com/QuadFlask/smartcrop-java/tree/master/src/test/resources/debug)
 
 ![kitty](https://github.com/QuadFlask/smartcrop-java/blob/master/src/test/resources/debug/kitty.png?raw=true)
 
