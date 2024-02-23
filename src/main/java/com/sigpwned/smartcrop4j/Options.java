@@ -34,12 +34,12 @@ public class Options {
 
   public static final Options DEFAULT = new Options();
 
-  public static Options ofDimensions(int cropWidth, int cropHeight) {
-    return new Options().cropWidth(cropWidth).cropHeight(cropHeight);
+  public static Options ofDimensions(int width, int height) {
+    return new Options().width(width).height(height);
   }
 
-  private int cropWidth = 100;
-  private int cropHeight = 100;
+  private int width = 100;
+  private int height = 100;
   private float detailWeight = .2f;
   private float[] skinColor = {0.7f, 0.57f, 0.44f};
   private float skinBias = .01f;
@@ -55,31 +55,31 @@ public class Options {
   // step * minscale rounded down to the next power of two should be good
   private int scoreDownsampleFactor = 8;
   private int scoreDownsampleMinSize = 128;
-
+  private int step;
   private float scaleStep = 0.1f;
-  private float minScale = 0.8f;
+  private float minScale = 1.0f;
   private float maxScale = 1.0f;
   private float edgeRadius = 0.4f;
   private float edgeWeight = -20f;
   private float outsideImportance = -.5f;
-  private boolean ruleOfThirds = false;
+  private boolean ruleOfThirds = true;
   private int bufferedBitmapType = BufferedImage.TYPE_INT_ARGB;
 
-  public int getCropWidth() {
-    return cropWidth;
+  public int getWidth() {
+    return width;
   }
 
-  public Options cropWidth(int cropWidth) {
-    this.cropWidth = cropWidth;
+  public Options width(int cropWidth) {
+    this.width = cropWidth;
     return this;
   }
 
-  public int getCropHeight() {
-    return cropHeight;
+  public int getHeight() {
+    return height;
   }
 
-  public Options cropHeight(int cropHeight) {
-    this.cropHeight = cropHeight;
+  public Options height(int cropHeight) {
+    this.height = cropHeight;
     return this;
   }
 
@@ -206,6 +206,15 @@ public class Options {
 
   public Options scoreDownsampleMinSize(int scoreDownsampleMinSize) {
     this.scoreDownsampleMinSize = scoreDownsampleMinSize;
+    return this;
+  }
+
+  public int getStep() {
+    return step;
+  }
+
+  public Options step(int step) {
+    this.step = step;
     return this;
   }
 

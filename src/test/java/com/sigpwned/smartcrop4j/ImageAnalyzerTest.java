@@ -49,7 +49,29 @@ public class ImageAnalyzerTest {
     File kittyFile = new File(kittyUrl.toURI());
     BufferedImage kittyImage = ImageIO.read(kittyFile);
 
-    ImageAnalysis analysis = Analysis.analyze(kittyImage);
+    ImageAnalysis analysis = Analysis.analyze(kittyImage, 100, 100);
+
+    assertThat(analysis.getTopCrop().getRegion(), is(new Rect(1, 1, 424, 424)));
+  }
+
+  @Test
+  public void givenSample_whenCropBiggerThanImage_thenGetExpectedCrop() throws Exception {
+    URL kittyUrl = getClass().getResource("samples/kitty.jpg");
+    File kittyFile = new File(kittyUrl.toURI());
+    BufferedImage kittyImage = ImageIO.read(kittyFile);
+
+    ImageAnalysis analysis = Analysis.analyze(kittyImage, 1000, 1000);
+
+    assertThat(analysis.getTopCrop().getRegion(), is(new Rect(1, 1, 424, 424)));
+  }
+
+  @Test
+  public void givenSample_whenCropBiggerThanImage_thenGetExpectedCrop2() throws Exception {
+    URL kittyUrl = getClass().getResource("samples/kitty.jpg");
+    File kittyFile = new File(kittyUrl.toURI());
+    BufferedImage kittyImage = ImageIO.read(kittyFile);
+
+    ImageAnalysis analysis = Analysis.analyze(kittyImage, 100, 1000);
 
     assertThat(analysis.getTopCrop().getRegion(), is(new Rect(1, 1, 424, 424)));
   }

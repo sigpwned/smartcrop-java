@@ -28,6 +28,7 @@ package com.sigpwned.smartcrop4j.util;
 import com.sigpwned.smartcrop4j.ImageAnalysis;
 import com.sigpwned.smartcrop4j.ImageAnalyzer;
 import com.sigpwned.smartcrop4j.Options;
+import com.sigpwned.smartcrop4j.Rect;
 import java.awt.image.BufferedImage;
 
 /**
@@ -42,7 +43,23 @@ public final class Analysis {
     return analyze(Options.DEFAULT, input);
   }
 
+  public static ImageAnalysis analyze(BufferedImage input, int cropWidth, int cropHeight) {
+    return analyze(Options.ofDimensions(cropWidth, cropHeight), input);
+  }
+
   public static ImageAnalysis analyze(Options options, BufferedImage input) {
     return new ImageAnalyzer(options).analyze(input);
+  }
+
+  public static Rect getBestCrop(BufferedImage input) {
+    return getBestCrop(Options.DEFAULT, input);
+  }
+
+  public static Rect getBestCrop(BufferedImage input, int width, int height) {
+    return getBestCrop(Options.ofDimensions(width, height), input);
+  }
+
+  public static Rect getBestCrop(Options options, BufferedImage input) {
+    return analyze(options, input).getTopCrop().getRegion();
   }
 }

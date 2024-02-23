@@ -41,6 +41,14 @@ import java.util.List;
 public class ImageAnalyzer {
 
   private final Options options;
+  private int cropWidth;
+
+  private int cropHeight;
+
+  private float minScale;
+
+  private float maxScale;
+
   private int[] cd;
 
   public ImageAnalyzer() {
@@ -53,7 +61,35 @@ public class ImageAnalyzer {
 
   public ImageAnalysis analyze(BufferedImage inputImage) {
     try {
-      ImageBuffer inputBuffer = ImageBuffer.fromBufferedImage(inputImage);
+      // calculate desired crop dimensions based on the image size
+      final float scale = Math.min(inputImage.getWidth() / (float) getOptions().getWidth(),
+          inputImage.getHeight() / (float) getOptions().getHeight());
+      cropWidth = (int) (getOptions().getWidth() * scale);
+      cropHeight = (int) (getOptions().getHeight() * scale);
+
+      // Img = 100x100, width = 95x95, scale = 100/95, 1/scale > min
+      // don't set minscale smaller than 1/scale
+      // -> don't pick crops that need upscaling
+      minScale = Math.min(maxScale, Math.max(1 / scale, options.getMinScale()));
+      maxScale = options.getMaxScale();
+
+      // scale down the image to a size that is appropriate for analysis
+      BufferedImage scaledImage;
+      float prescale = Math.min(
+          Math.max(256.0f / inputImage.getWidth(), 256.0f / inputImage.getHeight()), 1.0f);
+      if (prescale < 1.0f) {
+        // If our image is too large, then we need to scale it down
+        scaledImage = BufferedImages.scaled(inputImage, prescale,
+            getOptions().getBufferedBitmapType());
+        cropWidth = (int) (cropWidth * prescale);
+        cropHeight = (int) (cropHeight * prescale);
+      } else {
+        // If our image is already small enough, then we can use it directly
+        scaledImage = inputImage;
+        prescale = 1.0f;
+      }
+
+      ImageBuffer scaledBuffer = ImageBuffer.fromBufferedImage(scaledImage);
       ImageBuffer outputBuffer = new ImageBuffer(inputImage.getWidth(), inputImage.getHeight());
 
       prepareCie(inputBuffer);
@@ -94,17 +130,13 @@ public class ImageAnalyzer {
     return regions(score.width, score.height);
   }
 
-  private List<Rect> regions(int width, int height) {
+  private List<Rect> regions(int imageWidth, int imageHeight) {
     List<Rect> result = new ArrayList<>();
-    int minDimension = Math.min(width, height);
 
-    for (float scale = getOptions().getMaxScale(); scale >= getOptions().getMinScale();
-        scale -= getOptions().getScaleStep()) {
-      for (int y = 0; y + minDimension * scale <= height;
-          y += getOptions().getScoreDownsampleFactor()) {
-        for (int x = 0; x + minDimension * scale <= width;
-            x += getOptions().getScoreDownsampleFactor()) {
-          result.add(new Rect(x, y, (int) (minDimension * scale), (int) (minDimension * scale)));
+    for (float scale = maxScale; scale >= minScale; scale -= getOptions().getScaleStep()) {
+      for (int y = 0; y + cropHeight * scale <= imageHeight; y += getOptions().getStep()) {
+        for (int x = 0; x + cropWidth * scale <= imageWidth; x += getOptions().getStep()) {
+          result.add(new Rect(x, y, (int) (cropWidth * scale), (int) (cropHeight * scale)));
         }
       }
     }
